@@ -13,6 +13,16 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/:id', validateProjectId(), async (req, res) => {
+  try{
+    const project= await projectDB.get(req.params.id);
+    res.json(project);
+  } catch(err){
+    console.log('Error with request:', err);
+    next(err);
+  }
+})
+
 router.get('/:id/actions', validateProjectId(), async (req, res) => {
   try{
     const projectAction= await projectDB.getProjectActions(req.params.id);
