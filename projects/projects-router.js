@@ -5,12 +5,22 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try{
-        const projects= await projectDB.get(req.params.id);
-        res.json(projects);
+      const projects= await projectDB.get(req.params.id);
+      res.json(projects);
     } catch(err){
-        console.log('Error with request:', err);
-        next(err);
+      console.log('Error with request:', err);
+      next(err);
     }
+})
+
+router.get('/:id/actions', validateProjectId(), async (req, res) => {
+  try{
+    const projectAction= await projectDB.getProjectActions(req.params.id);
+    res.json(projectAction);
+  } catch(err){
+    console.log('Error requesting project actions:', err);
+    next(err);
+  }
 })
 
 router.post('/', validateProject(), async (req, res) => {
