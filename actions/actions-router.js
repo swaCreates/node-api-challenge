@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get('/actions', async (req, res) =>{
     try{
-        const actions= await actionDB.get(req.params.id);
-        res.json(actions);
+      const actions= await actionDB.get(req.params.id);
+      res.json(actions);
     } catch(err){
         console.log('Error getting actions:', err);
         next(err);
@@ -15,43 +15,43 @@ router.get('/actions', async (req, res) =>{
 })
 
 router.get('/actions/:id', validateActionId(), async (req, res) =>{
-    try{
-        const action= await actionDB.get(req.params.id);
-        res.json(action);
-    } catch(err){
-        console.log('Error getting actions:', err);
-        next(err);
-    }
+  try{
+    const action= await actionDB.get(req.params.id);
+    res.json(action);
+  } catch(err){
+      console.log('Error getting actions:', err);
+      next(err);
+  }
 })
 
 router.post('/projects/:id/actions', validateAction(), validateProjectId(), async (req, res) =>{
-    try{
-        const newAction= await actionDB.insert({
-            project_id: req.params.id,
-            description: req.body.description,
-            notes: req.body.notes
-        });
-        res.status(201).json(newAction);
-    } catch(err){
-        console.log('Error creating action:', err);
-        next(err);
-    }
+  try{
+    const newAction= await actionDB.insert({
+      project_id: req.params.id,
+      description: req.body.description,
+      notes: req.body.notes
+    });
+    res.status(201).json(newAction);
+  } catch(err){
+      console.log('Error creating action:', err);
+      next(err);
+  }
 })
 
 router.put('/projects/:id/actions/:actionsid', validateAction(), validateProjectId(), validateActionId(), async (req, res) =>{
-    try{
-        const updatedAction= await actionDB.update(req.params.id, req.body);
-        res.json(updatedAction);
-    } catch(err){
-        console.log('Error updating action:', err);
-        next(err);
-    }
+  try{
+    const updatedAction= await actionDB.update(req.params.id, req.body);
+    res.json(updatedAction);
+  } catch(err){
+      console.log('Error updating action:', err);
+      next(err);
+  }
 })
 
 router.delete('/projects/:id/actions/:actionsid', validateProjectId(), validateActionId(), async (req, res) =>{
     try{
-        await actionDB.remove(req.params.id);
-        res.status(204).end();
+      await actionDB.remove(req.params.id);
+      res.status(204).end();
     } catch(err){
         console.log('Error deleting action:', err);
         next(err);
